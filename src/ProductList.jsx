@@ -11,10 +11,8 @@ function ProductList() {
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-            ...prevState,
-            [product.name]: true,
-        }));
+        setAddedToCart([...addedToCart,plant.name])
+        
     };
 
     const plantsArray = [
@@ -255,9 +253,9 @@ const handlePlantsClick = (e) => {
 };
 
    const handleContinueShopping = (e) => {
-    handlePlantsClick;
     e.preventDefault();
     setShowCart(false);
+    setShowPlants(true);
   };
     return (
         <div>
@@ -292,7 +290,9 @@ const handlePlantsClick = (e) => {
                 <div className="product-title">{plant.name}</div>
                 <div className="product-price">${plant.cost}</div>
                 {/*Similarly like the above plant.name show other details like description and cost*/}
-                <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                <button  className="product-button"
+              // {...addedToCart.includes(plant.name) ? 'added' : ' ' }
+                 onClick={() => handleAddToCart(plant)}>Add to Cart</button>
             </div>
             ))}
         </div>
@@ -303,7 +303,7 @@ const handlePlantsClick = (e) => {
 
         </div>
  ) :  (
-    <CartItem onContinueShopping={handlePlantsClick}/>
+    <CartItem onContinueShopping={() => handleContinueShopping}/>
 )}
     </div>
     );
