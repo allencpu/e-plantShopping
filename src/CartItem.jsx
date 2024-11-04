@@ -43,7 +43,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   return (
     <><div className="navbar"
-           style ={{margin-right: 15;}}>
+           style ={{margin-right: '15px', color :'white'}}>
               {totalQuantity}
       </div>
       <div className="cart-container">
