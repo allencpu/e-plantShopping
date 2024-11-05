@@ -10,6 +10,13 @@
   gap: 30px;
 }
 
+/* cartNum */
+.cartnum {
+    position :absolute;
+    top: 30px; right: 39px;
+    font-size: 16px;
+}
+
 .cart-item-image {
   width: 200px;
   height: 200px;
