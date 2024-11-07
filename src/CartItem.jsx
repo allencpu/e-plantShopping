@@ -11,11 +11,13 @@ const CartItem = ({ onContinueShopping }) => {
   const calculateTotalAmount=cart.reduce((total, item) => total + item.cost * item.quantity, 0);
 
     
-  const handleContinueShopping = (e) => {
-    let total = 0;
-    cart.forEach((item)=> {total += item.cost*item.quantity;
-    });
-    alert( total + ' worth in Cart')};
+  const handleContinueShopping =()=> {
+    alert('did you want to continue??');
+ //   let total = 0;
+ //   cart.forEach((item)=> {total += item.cost*item.quantity;
+ //   });
+   // alert( total + ' worth in Cart')
+};
 
   const handleIncrement = (item) => {
     dispatch(incrementQuantity(item));
