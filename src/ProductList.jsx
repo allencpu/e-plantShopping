@@ -293,9 +293,14 @@ const handlePlantsClick = (e) => {
                 <div className="product-title">{plant.name}</div>
                 <div className="product-price">${plant.cost}</div>
                 {/*Similarly like the above plant.name show other details like description and cost*/}
-                <button  className="product-button"
-              // {...addedToCart.includes(plant.name) ? 'added' : ' ' }
+                <button 
+                 className="product-button"
+              // {...plant.quantity > 0 ? 'added' : ' ' }
+              //{plant.quantity > 0 ?  {plant.quantity} : "0"}
                  onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                  <span className="product-button.added-to-cart">
+        {plant.cost > 10 ? "+$10" : 'under $10'}
+          </span>
                
             </div>
             ))}
