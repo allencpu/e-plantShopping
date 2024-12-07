@@ -1,21 +1,45 @@
 import React, { useState,useEffect } from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import './ProductList.css'
-import { addItem } from './CartSlice';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 import CartItem from './CartItem';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const {addedToCart, setAddedToCart} = useState([]);
     const dispatch = useDispatch();
 
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product));
-        setAddedToCart([...addedToCart,plant.name])
-        
-    };
 
-    const plantsArray = [
+
+
+
+const initCart =false;
+    let newCart = false;
+ 
+    
+
+const [addedToCart, setAddedToCart] = useState(initCart);
+   
+    const handleAddToCart = (product,index,category) => {
+        dispatch(addItem(product));
+        let a=product.name;
+        let cat=0;
+        if (category === "Air Purifying Plants"){ cat=0};
+        if (category === "Aromatic Fragrant Plants" ){ cat=1};
+        if (category === "Insect Repellent Plants"){ cat=2};
+        if (category === "Medicinal Plants"){ cat=3};
+        if (category === "Low Maintenance Plants"){ cat=4};
+         var newIndex= index + (cat*6);
+     
+          if (addedToCart){
+        
+            newCart=false;
+
+          };
+          if (!addedToCart){newCart=true};
+        setAddedToCart(newCart);
+    };
+    
+        const plantsArray = [
         {
             category: "Air Purifying Plants",
             plants: [
@@ -251,11 +275,8 @@ const handlePlantsClick = (e) => {
     setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
     setShowCart(false); // Hide the cart when navigating to About Us
 };
-
-   const handleContinueShopping = () => {
-    
+   const handleContinueShopping = (e) => {
     e.preventDefault();
-    alert('did you want to continue??');
     setShowCart(false);
     setShowPlants(true);
   };
@@ -293,29 +314,27 @@ const handlePlantsClick = (e) => {
                 <div className="product-title">{plant.name}</div>
                 <div className="product-price">${plant.cost}</div>
                 {/*Similarly like the above plant.name show other details like description and cost*/}
-                <button 
-                 className="product-button"
-              // {...plant.quantity > 0 ? 'added' : ' ' }
-              //{plant.quantity > 0 ?  {plant.quantity} : "0"}
-                 onClick={() => handleAddToCart(plant)}>Add to Cart</button>
-                  <span className="product-button.added-to-cart">
-        {plant.cost > 10 ? "+$10" : 'under $10'}
+                
+                <button  className="product-button" onClick={() => handleAddToCart(plant,plantIndex,(category.category))}
+                
+                 style={addedToCart ? {backgroundColor:'grey'}: {backgroundColor: '#4CAF50'}}
+                 
+                 >{addedToCart ?  'added' : 'Add to Cart'  }</button>
+                
+                <span className="product-button.added-to-cart">
+                    
+        {  }
           </span>
                
             </div>
             ))}
         </div>
     </div>
-    
     ))}
-
-
         </div>
  ) :  (
     <CartItem onContinueShopping={() => handleContinueShopping}/>
 )}
     </div>
     );
-}
-
-export default ProductList;
+}export default ProductList;
