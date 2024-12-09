@@ -172,6 +172,12 @@ body {
     font-size: 29px;
 
 }
+/* cartNum0 */
+.cartnum0 {
+    position :absolute;
+    top: 30px; right: 39px;
+    font-size: 16px;
+}
 .plantname_heading{
    display: flex;
    align-items: center;
