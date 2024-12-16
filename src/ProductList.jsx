@@ -1,18 +1,20 @@
 import React, { useState,useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import './ProductList.css'
-import { addItem, updateQuantity } from './CartSlice';
+import { addItem, updateQuantity, removeItem } from './CartSlice';
 import CartItem from './CartItem';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const cart = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
-   
 
+    const initCart=["Snake Plant","Spider Plant","Peace Lily","Boston Fern","Rubber Plant","Aloe Vera","Lavender","Jasmine","Rosemary","Mint","Lemon Balm","Hyacinth",
+    "oregano","Marigold","Geraniums","Basil","Lavender","Catnip","Aloe Vera","Echinacea","Peppermint","Lemon Balm","Chamomile","Calendula","ZZ Plant","Pothos","Snake Plant",
+    "Cast Iron Plant","Succulents","Aglaonema",];
 const startCart=[];
 for(let x=0; x<30; x++){
-     startCart.push ({id: x, inCart: false})
+     startCart.push ({id: x, name: initCart[x], inCart: false})
 };
 
     const truIndex =(index, category) =>{ 
@@ -25,7 +27,15 @@ for(let x=0; x<30; x++){
          return index + (cat*6);
     };
     const totalQuantity = cart.reduce((total, item)=> total += item.quantity,0);
-    
+     const buttonPosition= (product)=> {
+        let bPosition=false;
+        cart.forEach((item) => {
+        const inventory= item;
+        if(inventory.quantity < 1) {dispatch(removeItem(inventory))};
+        if ( product.name === inventory.name  && inventory.quantity > 0){bPosition=true};
+    });
+    return bPosition;
+};
 
 const [addedToCart, setAddedToCart] = useState(startCart);
    
@@ -34,35 +44,16 @@ const [addedToCart, setAddedToCart] = useState(startCart);
         
         let a=product.name;
         let catIndex=truIndex(index,category);
-       
-        
          let newList=[];
-         
          addedToCart.forEach((item)=>{
-           
              newList[item.id]=item;
              if (item.id === catIndex){
-                newList[item.id]={id: item.id, inCart: true};
-
+                newList[item.id]={id: item.id, name: a, inCart: true};
              }
-             if ((catIndex === 6 && item.id === 16) || (catIndex === 16 && item.id === 6)){
-                newList[item.id]={id: item.id, inCart: true}};
-                if ((catIndex === 5 && item.id === 18) || (catIndex === 18 && item.id === 5)){
-                    newList[item.id]={id: item.id, inCart: true}};
-                    if ((catIndex === 10 && item.id === 21) || (catIndex === 21 && item.id === 10)){
-                        newList[item.id]={id: item.id, inCart: true}};
-                        if ((catIndex === 0 && item.id === 26) || (catIndex === 26 && item.id === 0)){
-                            newList[item.id]={id: item.id, inCart: true}};
-
-                            const itemToCorrect = cart.find(item => item.quantity === 0);
-                            if (itemToCorrect) {
-                                newList[newIndex]={id: newIndex, inCart: false};
-                            newIndex++};
-         },
-
+             if(newList[item.id]. inCart===true){
+            };
+                            },
            setAddedToCart(newList));
-           
-
     };
         const plantsArray = [
         {
@@ -346,16 +337,17 @@ const handlePlantsClick = (e) => {
                 
                 <button  className="product-button" onClick={() => handleAddToCart(plant,plantIndex,(category.category))}
                 
-                disabled ={addedToCart[truIndex(plantIndex,(category.category))]===true}
+                disabled ={buttonPosition(plant) === true}
                 
-                 style={addedToCart[truIndex(plantIndex,(category.category))].inCart ===true  ? {backgroundColor:'grey'}: {backgroundColor: '#4CAF50'}}
+                 style={buttonPosition(plant) ===true  ? {backgroundColor:'grey'}: {backgroundColor: '#4CAF50'}}
                  
-                 >{addedToCart[truIndex(plantIndex,(category.category))].inCart ===true ?  'added' : 'Add to Cart'  }</button>
+                 >
+                 {buttonPosition(plant) === true  ?  'added' : 'Add to Cart'  }
+                 </button>
                  
                 <span className="product-button.added-to-cart">
             
-                    
-                
+                           
           </span>
                
             </div>
